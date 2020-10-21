@@ -1,8 +1,8 @@
 package com.sqw.querydslsample.Controller;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sqw.querydslsample.bean.UserBean;
 import com.sqw.querydslsample.bean.QUserBean;
+import com.sqw.querydslsample.bean.UserBean;
 import com.sqw.querydslsample.jpa.UserJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -90,12 +90,12 @@ public class UserController {
 
     /**
      * 根据名称模糊查询
-     * @param name  用户名字
+     *
+     * @param name 用户名字
      * @return
      */
     @RequestMapping(value = "/likeQueryWithName")
-    public List<UserBean> likeQueryWithName(String name)
-    {
+    public List<UserBean> likeQueryWithName(String name) {
         //使用querydsl查询
         QUserBean _Q_user = QUserBean.userBean;
 

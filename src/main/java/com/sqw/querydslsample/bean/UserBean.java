@@ -12,8 +12,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "t_user")
-public class UserBean implements Serializable
-{
+public class UserBean implements Serializable {
     @Id
     @Column(name = "t_id")
     @GeneratedValue
