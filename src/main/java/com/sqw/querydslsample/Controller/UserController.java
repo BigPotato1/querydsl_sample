@@ -1,8 +1,10 @@
 package com.sqw.querydslsample.Controller;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sqw.querydslsample.bean.QUserBean;
 import com.sqw.querydslsample.bean.UserBean;
+import com.sqw.querydslsample.dto.UserDto;
 import com.sqw.querydslsample.jpa.UserJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,6 +89,33 @@ public class UserController {
     }
 //    上面的两种风格都是可以根据id字段返回指定的单条数据，当然在上面的编写看来还是使用SpringDataJPA &QueryDSL要简单些，
 //    也只是在简单的查询情况下，整合风格要比纯QueryDSL风格要简便，但是如果添加排序、模糊查询时还是纯QueryDSL编写更简单一些。
+
+    /**
+     * 实现查询后返回自定义dto对象,自定义dto对象相对于Entity类(即UserBean)中减少了字段 pwd,即返回信息不展示密码
+     * 完全QueryDSL风格
+     *
+     * @param id 主键编号
+     * @return
+     */
+    @RequestMapping(value = "/detail_3/{id}")
+    public UserDto detail_3(@PathVariable("id") Long id) {
+        //使用querydsl查询
+        QUserBean _Q_user = QUserBean.userBean;
+        //查询并返回结果集
+        return queryFactory
+                .select(
+                        Projections.bean(
+                                UserDto.class,
+                                _Q_user.id,
+                                _Q_user.name.as("userName"),//使用别名对应dto内的userName
+                                _Q_user.address,
+                                _Q_user.age
+                        )
+                )
+                .from(_Q_user)//查询源
+                .where(_Q_user.id.eq(id))//指定查询具体id的数据
+                .fetchOne();//执行查询并返回单个结果
+    }
 
     /**
      * 根据名称模糊查询
