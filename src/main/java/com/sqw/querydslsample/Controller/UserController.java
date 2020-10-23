@@ -7,6 +7,7 @@ import com.sqw.querydslsample.bean.UserBean;
 import com.sqw.querydslsample.dto.UserDto;
 import com.sqw.querydslsample.jpa.UserJPA;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,10 +41,11 @@ public class UserController {
 
     /**
      * 查询全部数据并根据id倒序
+     * http://localhost:8080/user/queryAll
      *
      * @return
      */
-    @RequestMapping(value = "/queryAll")
+    @GetMapping(value = "/queryAll")
     public List<UserBean> queryAll() {
         //使用querydsl查询
         QUserBean _Q_user = QUserBean.userBean;
@@ -58,11 +60,12 @@ public class UserController {
     /**
      * 完全QueryDSL风格
      * 查询详情
+     * http://localhost:8080/user/detail/2
      *
      * @param id 主键编号
      * @return
      */
-    @RequestMapping(value = "/detail/{id}")
+    @GetMapping(value = "/detail/{id}")
     public UserBean detail(@PathVariable("id") Long id) {
         //使用querydsl查询
         QUserBean _Q_user = QUserBean.userBean;
@@ -80,7 +83,7 @@ public class UserController {
      * @param id 主键编号
      * @return
      */
-    @RequestMapping(value = "/detail_2/{id}")
+    @GetMapping(value = "/detail_2/{id}")
     public UserBean detail_2(@PathVariable("id") Long id) {
         //使用querydsl查询
         QUserBean _Q_user = QUserBean.userBean;
@@ -97,7 +100,7 @@ public class UserController {
      * @param id 主键编号
      * @return
      */
-    @RequestMapping(value = "/detail_3/{id}")
+    @GetMapping(value = "/detail_3/{id}")
     public UserDto detail_3(@PathVariable("id") Long id) {
         //使用querydsl查询
         QUserBean _Q_user = QUserBean.userBean;
@@ -119,11 +122,12 @@ public class UserController {
 
     /**
      * 根据名称模糊查询
+     * http://localhost:8080/user/likeQueryWithName?name=李四
      *
      * @param name 用户名字
      * @return
      */
-    @RequestMapping(value = "/likeQueryWithName")
+    @GetMapping(value = "/likeQueryWithName")
     public List<UserBean> likeQueryWithName(String name) {
         //使用querydsl查询
         QUserBean _Q_user = QUserBean.userBean;
