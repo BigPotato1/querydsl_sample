@@ -1,7 +1,10 @@
 package com.sqw.querydslsample.Controller;
 
+import com.github.dozermapper.core.Mapper;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sqw.querydslsample.bean.FamilyMemberBean;
+import com.sqw.querydslsample.bean.QFamilyMemberBean;
 import com.sqw.querydslsample.bean.QUserBean;
 import com.sqw.querydslsample.bean.UserBean;
 import com.sqw.querydslsample.dto.UserDto;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +36,10 @@ public class UserController {
 
     //JPA查询工厂
     private JPAQueryFactory queryFactory;
+
+    @Autowired
+    Mapper objectMapper;
+
 
     @PostConstruct
     public void initFactory() {
@@ -110,7 +118,7 @@ public class UserController {
                         Projections.bean(
                                 UserDto.class,
                                 _Q_user.id,
-                                _Q_user.name.as("userName"),//使用别名对应dto内的userName
+                                _Q_user.name,
                                 _Q_user.address,
                                 _Q_user.age
                         )
@@ -138,5 +146,31 @@ public class UserController {
                 .fetch();//执行查询并返回结果集
     }
 
+    @GetMapping("/familyMembers")
+    public List<FamilyMemberBean> getUserFamilyMembers() {
+        QUserBean qUserBean = QUserBean.userBean;
+        QFamilyMemberBean qFamilyMemberBean = QFamilyMemberBean.familyMemberBean;
+        var query = queryFactory.select(qFamilyMemberBean).from(qFamilyMemberBean, qUserBean).where(qFamilyMemberBean.userId.eq(qUserBean.id)).fetch();
+        return query;
+    }
+
+    @GetMapping("/userAttachFamilyMembers")
+    public List<UserDto> getUserAttachFamilyMember() {
+        QUserBean qUserBean = QUserBean.userBean;
+        QFamilyMemberBean qFamilyMemberBean = QFamilyMemberBean.familyMemberBean;
+        List<UserBean> userBeanList = queryFactory.select(qUserBean).from(qUserBean).fetch();
+
+        List<UserDto> userDtoList = new ArrayList<>();
+        userBeanList.forEach(userBean -> {
+            UserDto userDto = objectMapper.map(userBean, UserDto.class);
+            List<FamilyMemberBean> familyMemberBeanList = queryFactory.select(qFamilyMemberBean)
+                    .from(qFamilyMemberBean)
+                    .where(qFamilyMemberBean.userId.eq(userDto.getId())).fetch();
+            userDto.setFamilyMemberBeanList(familyMemberBeanList);
+            userDtoList.add(userDto);
+        });
+
+        return userDtoList;
+    }
 }
 

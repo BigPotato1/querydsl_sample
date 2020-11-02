@@ -1,11 +1,10 @@
 package com.sqw.querydslsample.dto;
 
+import com.sqw.querydslsample.bean.FamilyMemberBean;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author shenqingwen
@@ -16,9 +15,11 @@ public class UserDto implements Serializable {
 
     private Long id;
 
-    private String userName;
+    private String name;
 
     private int age;
 
     private String address;
+
+    private List<FamilyMemberBean> familyMemberBeanList;
 }
