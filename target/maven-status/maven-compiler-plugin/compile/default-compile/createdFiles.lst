@@ -1,6 +1,11 @@
+com\sqw\querydslsample\bean\QFamilyMemberBean.class
+com\sqw\querydslsample\dto\FamilyMemberDto.class
+com\sqw\querydslsample\util\Swagger2Config.class
+com\sqw\querydslsample\QuerydslSampleApplication.class
+com\sqw\querydslsample\jpa\UserJPA.class
+com\sqw\querydslsample\dto\UserDto.class
+com\sqw\querydslsample\bean\FamilyMemberBean.class
 com\sqw\querydslsample\jpa\BaseJPA.class
 com\sqw\querydslsample\bean\QUserBean.class
 com\sqw\querydslsample\bean\UserBean.class
 com\sqw\querydslsample\Controller\UserController.class
-com\sqw\querydslsample\QuerydslSampleApplication.class
-com\sqw\querydslsample\jpa\UserJPA.class
