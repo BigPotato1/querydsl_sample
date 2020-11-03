@@ -7,6 +7,7 @@ import com.sqw.querydslsample.bean.FamilyMemberBean;
 import com.sqw.querydslsample.bean.QFamilyMemberBean;
 import com.sqw.querydslsample.bean.QUserBean;
 import com.sqw.querydslsample.bean.UserBean;
+import com.sqw.querydslsample.dto.FamilyMemberDto;
 import com.sqw.querydslsample.dto.UserDto;
 import com.sqw.querydslsample.jpa.UserJPA;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,10 +164,15 @@ public class UserController {
         List<UserDto> userDtoList = new ArrayList<>();
         userBeanList.forEach(userBean -> {
             UserDto userDto = objectMapper.map(userBean, UserDto.class);
-            List<FamilyMemberBean> familyMemberBeanList = queryFactory.select(qFamilyMemberBean)
+            List<FamilyMemberDto> familyMemberDtoList = queryFactory.select(
+                    Projections.bean(
+                            FamilyMemberDto.class,
+                            qFamilyMemberBean.relationship
+                    )
+            )
                     .from(qFamilyMemberBean)
                     .where(qFamilyMemberBean.userId.eq(userDto.getId())).fetch();
-            userDto.setFamilyMemberBeanList(familyMemberBeanList);
+            userDto.setFamilyMemberDtoList(familyMemberDtoList);
             userDtoList.add(userDto);
         });
 

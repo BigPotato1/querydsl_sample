@@ -21,5 +21,5 @@ public class UserDto implements Serializable {
 
     private String address;
 
-    private List<FamilyMemberBean> familyMemberBeanList;
+    private List<FamilyMemberDto> familyMemberDtoList;
 }
