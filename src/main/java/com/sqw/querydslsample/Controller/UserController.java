@@ -155,6 +155,12 @@ public class UserController {
         return query;
     }
 
+    /**
+     * 一对多的两表联合查询，并返回自定义的Dto
+     * http://localhost:8080/user/userAttachFamilyMembers
+     *
+     * @return
+     */
     @GetMapping("/userAttachFamilyMembers")
     public List<UserDto> getUserAttachFamilyMember() {
         QUserBean qUserBean = QUserBean.userBean;
